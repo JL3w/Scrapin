@@ -16,6 +16,8 @@ app.use(express.static("public"));
 
 const api = require("./routes/api");
 app.use(api);
+const pages = require("./routes/pages");
+app.use(pages);
 
 app.listen(PORT, function () {
     console.log("Listening on port: " + PORT);

@@ -20,8 +20,8 @@ app.get("/scrape", function (req, res) {
                     console.log(err);
                 });
         });
-        res.send("Scrape Complete");
-    });
+        res.send("Scraped!");
+    }); 
 });
 
 app.get("/articles", function (req, res) {
@@ -30,9 +30,23 @@ app.get("/articles", function (req, res) {
             console.log(err);
         }
         else {
-            // Otherwise, send the result of this query to the browser
-            res.json(data).pretty();
+            res.json(data);
         }
     });
 });
+
+
+app.get("/clear", function (req, res) {
+    console.log("Clearing Articles")
+    db.Article.deleteMany({}, function (error) {
+        if (error) {
+            console.log(error);
+            res.send(error);
+        }
+        else {
+            rconsole.log("All Clear!");
+        }
+    });
+});
+
 module.exports = app;
