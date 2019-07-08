@@ -64,7 +64,7 @@ function renderSavedArticles() {
                 "<div class='card-body'>" +
                 "<a href='" + data[i].url + "' class='card-text'>" + data[i].title + "</a>" +
                 "<button class='btn btn-success float-right' id='addnote' data-toggle='modal' data-target='#addmodal' data-id=" + data[i]._id + ">Notes</button>" +
-                "<button class='btn btn-danger float-right' style='margin-right: 10px' id='deletearticle' data-id=" + data[i]._id + ">Remove</button></li>" +
+                "<button class='btn btn-danger float-right' style='margin-right: 10px' id='removeart' data-id=" + data[i]._id + ">Remove</button></li>" +
                 "</div>" +
                 "</div>" +
                 "<br>"
@@ -72,3 +72,23 @@ function renderSavedArticles() {
         }
     });
 };
+
+$(document).on("click", "#removeart", function () {
+    event.preventDefault();
+    let Id = $(this).attr("data-id");
+    console.log(Id)
+    $.ajax({
+        method: "GET",
+        url: "/articles/saved/" + Id
+    })
+        .then(function (data) {
+            $("#fav").empty();
+            $.ajax({
+                method: "GET",
+                url: "/articles/saved"
+            })
+                .then(function () {
+                    renderSavedArticles();
+                })
+        });
+});

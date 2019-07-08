@@ -26,7 +26,7 @@ app.get("/scrape", function (req, res) {
 });
 
 app.get("/articles", function (req, res) {
-    db.Article.find({}, function (err, data) {
+    db.Article.find({fav: false}, function (err, data) {
         if (err) {
             console.log(err);
         }
@@ -69,6 +69,16 @@ app.get("/save/:id", function (req, res) {
 app.get("/articles/saved", function (req, res) {
     db.Article.find({ fav: true })
         .populate("note")
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
+
+app.get("/articles/saved/:id", function (req, res) {
+    db.Article.deleteOne({ _id: req.params.id })
         .then(function (dbArticle) {
             res.json(dbArticle);
         })
